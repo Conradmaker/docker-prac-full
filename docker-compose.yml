@@ -21,6 +21,12 @@ services:
     volumes:
       - /app/node_modules
       - ./server:/app
+    environment:
+      MYSQL_HOST: rise-inside.c1jy3xu5st4b.ap-northeast-2.rds.amazonaws.com
+      MYSQL_USER: admin
+      MYSQL_ROOT_PASSWORD: l1484418
+      MYSQL_DATABASE: myapp
+      MYSQL_PORT: 3306
 
   nginx:
     container_name: app_nginx

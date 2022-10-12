@@ -21,3 +21,16 @@ after_success:
   - docker push conradmaker/docker-client
   - docker push conradmaker/docker-server
   - docker push conradmaker/docker-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-northeast-2"
+  app: "docker-full-app"
+  env: "Dockerfullapp-env"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-840838586021"
+  bucket_path: "docker-full-app"
+  on:
+    branch: master
+  
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY

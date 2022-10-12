@@ -1,0 +1,33 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "app_client",
+            "image": "conradmaker/docker-client",
+            "hostname": "fe",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "app_server",
+            "image": "conradmaker/docker-server",
+            "hostname": "be",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "app_nginx",
+            "image": "conradmaker/docker-nginx",
+            "hostname": "nginx",
+            "essential": true,
+            "memory": 128,
+            "portMappings": [
+                {
+                    "hostPort":80,
+                    "containerPort":80
+                }
+            ],
+            "links":["fe","be"]
+        }
+    ]
+}

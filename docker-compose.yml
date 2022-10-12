@@ -2,10 +2,11 @@
 version: "3"
 services:
   fe:
-    container_name: app_client
-    build: 
-      dockerfile: Dockerfile.dev
-      context: ./client
+    image: conradmaker/docker-client
+    container_name: fe
+    # build: 
+    #   dockerfile: Dockerfile.dev
+    #   context: ./client
     volumes:
       - /app/node_modules
       - ./client:/app
@@ -14,25 +15,27 @@ services:
       - CHOKIDAR_USEPOLLING=true
 
   be:
-    container_name: app_server
-    build: 
-      dockerfile: Dockerfile.dev
-      context: ./server
+    image: conradmaker/docker-server
+    container_name: be
+    # build: 
+    #   dockerfile: Dockerfile.dev
+    #   context: ./server
     volumes:
       - /app/node_modules
       - ./server:/app
     environment:
-      MYSQL_HOST: rise-inside.c1jy3xu5st4b.ap-northeast-2.rds.amazonaws.com
-      MYSQL_USER: admin
-      MYSQL_ROOT_PASSWORD: l1484418
-      MYSQL_DATABASE: myapp
-      MYSQL_PORT: 3306
+      MYSQL_HOST: $MYSQL_HOST 
+      MYSQL_USER: $MYSQL_USER 
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      MYSQL_PORT: $MYSQL_PORT   
 
   nginx:
-    container_name: app_nginx
+    image: conradmaker/docker-nginx
+    container_name: nginx
     restart: always
-    build: 
-      dockerfile: Dockerfile
-      context: ./nginx
+    # build: 
+    #   dockerfile: Dockerfile
+    #   context: ./nginx
     ports:
       - "3000:80"

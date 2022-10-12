@@ -1,0 +1,23 @@
+language: generic
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t conradmaker/prac-full-app -f ./cliend/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true conradmaker/prac-full-app yarn test
+
+after_success:
+  - docker build -t conradmaker/docker-client ./client
+  - docker build -t conradmaker/docker-server ./server
+  - docker build -t conradmaker/docker-nginx ./nginx
+
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+
+  - docker push conradmaker/docker-client
+  - docker push conradmaker/docker-server
+  - docker push conradmaker/docker-nginx

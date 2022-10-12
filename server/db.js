@@ -1,9 +1,9 @@
-import mysql from "mysql2";
+import mysql from "mysql2/promise";
 
 export const pool = mysql.createPool({
   connectionLimit: 10,
   host: "mysql",
   user: "root",
-  password: "l1484418",
+  password: "root",
   database: "myapp",
 });

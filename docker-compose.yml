@@ -1,0 +1,32 @@
+# EB에서 사용
+version: "3"
+services:
+  fe:
+    container_name: app_client
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  be:
+    container_name: app_server
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./server
+    volumes:
+      - /app/node_modules
+      - ./server:/app
+
+  nginx:
+    container_name: app_nginx
+    restart: always
+    build: 
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - "3000:80"

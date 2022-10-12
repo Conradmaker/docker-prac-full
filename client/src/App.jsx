@@ -10,8 +10,8 @@ function App() {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const {data} = await axios.post("/api/value", {value});
-      setLists(lists.concat(data));
+      await axios.post("/api/value", {value});
+      setLists(prev=>prev.concat([{value}]));
       setValue("");
     } catch (e) {
       throw e;
@@ -21,7 +21,6 @@ function App() {
   useEffect(() => {
     const fetch = async () => {
       const {data} = await axios.get("/api/values");
-      console.log(data);
       setLists(data);
     };
     fetch();

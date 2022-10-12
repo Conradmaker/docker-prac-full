@@ -1,13 +1,8 @@
 import express from "express";
 
-import * as db from "./db";
+import * as db from "./db.js";
 
 const app = express();
-db.pool.query(`CREATE TABLE 
-    id INTEGER AUTO_INCREMENT,
-    value VARCHAR(256),
-    PRIMARY KEY (id)  
-`);
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -17,7 +12,7 @@ app.get("/api/values", async (req, res, next) => {
   try {
     //db에서 정보 가져오기
     const result = await db.pool.query(`SELECT * FROM LISTS`);
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (e) {
     console.error(e);
     next(e);
@@ -26,9 +21,10 @@ app.get("/api/values", async (req, res, next) => {
 app.post("/api/value", async (req, res, next) => {
   try {
     const result = await db.pool.query(
-      `INSERT INTO LISTS (value) VALUES("${req.body.value}")`
+      `INSERT INTO LISTS (value) VALUES ("${req.body.value}")`
     );
-    return res.status(200).json(result);
+    console.log(result)
+    return res.status(200).json(result[0]);
   } catch (e) {
     console.error(e);
     next(e);
